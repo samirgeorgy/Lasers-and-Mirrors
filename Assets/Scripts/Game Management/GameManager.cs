@@ -14,11 +14,13 @@ public class GameManager : MonoBehaviourPun, IPunObservable
     static private GameManager _instance;
 
     [SerializeField] private Transform[] _locations;
+    [SerializeField] private GameObject[] _levelSchemes;
     [SerializeField] private GameObject _laserPrefab;
     [SerializeField] private GameObject _targetPrefab;
 
     private int laserPosIndex = 0;
     private int targetPosIndex = 0;
+    private int levelSchemeIndex = 0;
     private bool _gameWon = false;
 
     #endregion
@@ -52,12 +54,15 @@ public class GameManager : MonoBehaviourPun, IPunObservable
         {
             laserPosIndex = Random.Range(0, _locations.Length);
             targetPosIndex = Random.Range(0, _locations.Length);
+            levelSchemeIndex = Random.Range(0, _levelSchemes.Length);
 
             while (laserPosIndex == targetPosIndex)
                 targetPosIndex = Random.Range(0, _locations.Length);
 
             Transform laserPos = _locations[laserPosIndex];
             Transform targetPos = _locations[targetPosIndex];
+
+            _levelSchemes[levelSchemeIndex].SetActive(true);
 
             Instantiate(_laserPrefab, laserPos);
             Instantiate(_targetPrefab, targetPos);
@@ -89,16 +94,18 @@ public class GameManager : MonoBehaviourPun, IPunObservable
     {
         if (stream.IsWriting)
         {
-            Vector2 indices = new Vector2(laserPosIndex, targetPosIndex);
+            Vector3 indices = new Vector3(laserPosIndex, targetPosIndex, levelSchemeIndex);
             stream.Serialize(ref indices);
         }
         else if (stream.IsReading)
         {
-            Vector2 indices = Vector2.zero;
+            Vector3 indices = Vector3.zero;
             stream.Serialize(ref indices);
 
             Transform laserPos = _locations[(int)indices.x];
             Transform targetPos = _locations[(int)indices.y];
+
+            _levelSchemes[(int)indices.z].SetActive(true);
 
             Instantiate(_laserPrefab, laserPos);
             Instantiate(_targetPrefab, targetPos);

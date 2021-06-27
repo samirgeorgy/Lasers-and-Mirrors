@@ -101,6 +101,7 @@ MonoBehaviour:
   _laserStartColor: {r: 1, g: 1, b: 1, a: 0}
   _laserEndColor: {r: 1, g: 1, b: 1, a: 0}
   _material: {fileID: 2100000, guid: 8780cffa67110a745b7f5b9ad7196501, type: 2}
+  _laserEndFX: {fileID: 8650764182733778802, guid: 58ebfd44e7e02704aa74109ce21db246, type: 3}
 --- !u!1001 &424419685
 PrefabInstance:
   m_ObjectHideFlags: 0

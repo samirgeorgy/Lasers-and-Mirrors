@@ -6,8 +6,14 @@ using Photon.Pun;
 
 public class SpawnPlayers : MonoBehaviour
 {
+    #region Private Variables
+
     [SerializeField] private GameObject[] _playerPrefabs;
     [SerializeField] private float minX, MaxX, minY, MaxY;
+
+    #endregion
+
+    #region Unity Functions
 
     // Start is called before the first frame update
     void Start()
@@ -18,4 +24,6 @@ public class SpawnPlayers : MonoBehaviour
 
         PhotonNetwork.Instantiate(_playerPrefabs[index].name, randomPosition, Quaternion.identity);
     }
+
+    #endregion
 }

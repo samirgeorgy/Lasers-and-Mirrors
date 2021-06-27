@@ -11,6 +11,7 @@ public class ShootLaser : MonoBehaviour
     [SerializeField] private Color _laserStartColor;
     [SerializeField] private Color _laserEndColor;
     [SerializeField] private Material _material;
+    [SerializeField] private GameObject _laserEndFX;
 
     private LaserBeam _beam;
 
