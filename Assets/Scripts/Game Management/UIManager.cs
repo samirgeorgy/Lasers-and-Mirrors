@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _playerName;
     [SerializeField] private Text _roomName;
     [SerializeField] private Animator _fadeAnim;
+    [SerializeField] private GameObject _tutorialWindow;
 
     #endregion
 
@@ -32,6 +33,17 @@ public class UIManager : MonoBehaviour
     {
         if (_instance == null)
             _instance = this;
+    }
+
+    private void Start()
+    {
+        int fisrtTime = PlayerPrefs.GetInt("FirstTimePlay", 0);
+
+        if (fisrtTime == 0)
+        {
+            _tutorialWindow.SetActive(true);
+            PlayerPrefs.SetInt("FirstTimePlay", 1);
+        }
     }
 
     private void Update()

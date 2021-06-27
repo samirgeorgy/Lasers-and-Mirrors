@@ -37,6 +37,9 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        if (!PhotonNetwork.IsConnectedAndReady)
+            PhotonNetwork.ConnectUsingSettings();
+
         nicknameInput.text = PlayerPrefs.GetString("nickname", "");
     }
 
@@ -84,11 +87,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRoom(roomName);
     }
 
+    public override void OnConnectedToMaster()
+    {
+        PhotonNetwork.JoinLobby();
+    }
+
+    public void RefreshLobby()
+    {
+        StartCoroutine(RefreshLobbyRoutine());
+    }
+
     public override void OnJoinedRoom()
     {
         Lobby_UI.Instance.UpdateConnectionMsg("Joining Room...");
         PhotonNetwork.LoadLevel("Game");
-        //StartCoroutine(RoomTransitionRoutine());
     }
 
     public void QuitGame()
@@ -96,13 +108,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         Application.Quit();
     }
 
-    IEnumerator RoomTransitionRoutine()
+    IEnumerator RefreshLobbyRoutine()
     {
-        Lobby_UI.Instance.FadeOut();
+        PhotonNetwork.LeaveLobby();
 
-        yield return new WaitForSeconds(1.2f);
+        while (PhotonNetwork.InLobby)
+            yield return null;
 
-        PhotonNetwork.LoadLevel("Game");
+        PhotonNetwork.JoinLobby();
     }
 
     #endregion

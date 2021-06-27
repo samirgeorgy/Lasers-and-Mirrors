@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 104245304}
   - component: {fileID: 104245303}
   m_Layer: 0
-  m_Name: ConnectToServer
+  m_Name: NetworkManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -16,9 +16,23 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
 
     #endregion
 
+    #region Unity Functions
+
+    private void Start()
+    {
+        if (NetworkManager.Instance.RoomList.Count != 0)
+            UpdateRoomList(NetworkManager.Instance.RoomList);
+        else
+        {
+            ClearRoomList();
+        }
+    }
+
+    #endregion
+
     #region Supporting Functions
 
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    private void ClearRoomList()
     {
         _listing.Clear();
 
@@ -26,6 +40,11 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
         {
             GameObject.Destroy(child.gameObject);
         }
+    }
+
+    private void UpdateRoomList(List<RoomInfo> roomList)
+    {
+        ClearRoomList();
 
         foreach (RoomInfo info in roomList)
         {
@@ -50,6 +69,11 @@ public class RoomListingMenu : MonoBehaviourPunCallbacks
                 }
             }
         }
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        UpdateRoomList(roomList);
     }
 
     #endregion
